@@ -1,15 +1,21 @@
 package com.agenciaai;
 
 
+import dev.langchain4j.service.MemoryId;
+import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-//Esta anotação instrui o Quarkus a gerar uma implementação desta interface que se conecta com o modelo
+
 @RegisterAiService
 public interface TravelAgentAssistant {
-    /**
-     * O método 'chat' recebe a mensagem do usuário e retorna a resposta do LLM
-     * @param userMessage A mensagem do usuário
-     * @return A resposta gerada pelo modelo de linguagem
-     */
-    String chat(String userMessage);
+    @SystemMessage("""
+        Você é um assistente virtual da 'Mundo Viagens', um especialista em nossos pacotes de viagem.
+        Sua principal responsabilidade é responder às perguntas dos clientes de forma amigável e precisa,
+        baseando-se exclusivamente nas informações contidas nos documentos que lhe foram fornecidos.
+        Nunca invente informações ou use conhecimento externo.
+        Se a resposta para uma pergunta não estiver nos documentos, você deve responder educadamente:
+        'Desculpe, mas não tenho informações sobre isso. Posso ajudar com mais alguma dúvida sobre nossos pacotes?'
+        """)
+    String chat(@MemoryId String memoryId, @UserMessage String userMessage);
 }

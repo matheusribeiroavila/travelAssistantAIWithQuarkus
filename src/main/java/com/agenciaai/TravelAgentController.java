@@ -19,6 +19,6 @@ public class TravelAgentController {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     public String ask(String question){
-        return assistant.chat(question);
+        return assistant.chat("session-123", question);
     }
 }
