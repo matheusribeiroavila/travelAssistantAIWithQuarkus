@@ -25,8 +25,9 @@ public class DocumentIngestor {
     EmbeddingModel embeddingModel;
 
     public void onStart(@Observes StartupEvent event) {
+        System.out.println("INGESTANDO DOCUMENTO...");
         Document document = FileSystemDocumentLoader.loadDocument(
-                Paths.get("src/main/resources/rag/pacotes-viagem.md")
+                Paths.get("target/classes/rag/pacotes-viagem.md")
         );
 
         document.metadata().put("type", "packages");
