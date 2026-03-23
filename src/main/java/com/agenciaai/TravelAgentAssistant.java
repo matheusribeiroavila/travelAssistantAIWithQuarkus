@@ -7,7 +7,7 @@ import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
 
-@RegisterAiService
+@RegisterAiService(tools = BookingTools.class)
 public interface TravelAgentAssistant {
     @SystemMessage("""
         Você é um assistente virtual da 'Mundo Viagens', um especialista em nossos pacotes de viagem.

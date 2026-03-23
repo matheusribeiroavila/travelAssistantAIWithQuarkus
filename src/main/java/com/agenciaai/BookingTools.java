@@ -1,8 +1,10 @@
 package com.agenciaai;
 
 import dev.langchain4j.agent.tool.Tool;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+@ApplicationScoped
 public class BookingTools {
 
     @Inject
