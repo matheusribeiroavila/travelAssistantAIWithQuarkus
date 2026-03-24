@@ -4,6 +4,8 @@ import dev.langchain4j.agent.tool.Tool;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.List;
+
 @ApplicationScoped
 public class BookingTools {
 
@@ -26,5 +28,18 @@ public class BookingTools {
         return bookingService.cancelBooking(bookingId, customerLastName)
                 .map(Booking::toString)
                 .orElse("Não foi possível cancelar a reserva. Verifique se o ID da reserva ou o sobrenome do cliente está preenchido corretamente.");
+    }
+
+    @Tool("""
+            Lista de pacotes de viagem disponíveis para uma determinada categoria (ex de opções: ADVENTURE, TREASURE),
+            caso o cliente não forneça a categoria, mostre estas opções.
+            """)
+    public String listPackagesByCategory(Category category){
+        List<Booking> packages = bookingService.findPackagesByCategory(category);
+        if (packages.isEmpty()){
+            return "Nenhum pacote encontrado para a categoria";
+        }
+
+        return "Pacotes encontrados para a categoria "+category+": "+packages.stream().map(Booking::destination).toList().toString();
     }
 }
