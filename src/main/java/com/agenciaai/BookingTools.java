@@ -20,19 +20,18 @@ public class BookingTools {
     }
 
     @Tool("""
-        Cancela uma reserva existente.
-        Para confirmar o cancelamento, é necessário fornecer o ID da raserva (bookingId)
-        e o último nome do cliente (customerLastName).
+        Cancela uma reserva existente com base no seu ID (bookingId). O usuário deve estar autenticado.
      """)
-    public String cancelBooking(long bookingId, String customerLastName){
-        return bookingService.cancelBooking(bookingId, customerLastName)
-                .map(Booking::toString)
-                .orElse("Não foi possível cancelar a reserva. Verifique se o ID da reserva ou o sobrenome do cliente está preenchido corretamente.");
+    public String cancelBooking(long bookingId){
+        return bookingService.cancelBooking(bookingId)
+                .map(b -> "Reserva "+b.id()+" cancelada com sucesso")
+                .orElse("Não foi possível cancelar a reserva. Verifique se o ID da reserva esta correto ou se você tem permissão");
     }
 
     @Tool("""
-            Lista de pacotes de viagem disponíveis para uma determinada categoria (ex de opções: ADVENTURE, TREASURE),
-            caso o cliente não forneça a categoria, mostre estas opções.
+            Lista de pacotes de viagem disponíveis para uma determinada categoria (ex de opções: ADVENTURE, TREASURE)
+            Se um pacote possui no titulo a categoria ADVENTURE (AVENTURA) então ela não é um Tesouro e vice versa
+            Sempre traca apenas o que foi pedido, não adapte titulos
             """)
     public String listPackagesByCategory(Category category){
         List<Booking> packages = bookingService.findPackagesByCategory(category);
