@@ -18,10 +18,9 @@ public class TravelAgentController {
     public String ask(String question, @HeaderParam("X-User-Name") String userName){
         if (userName != null && !userName.isEmpty()){
             try {
-                SecurityContext.setCurrentUser(userName);
-                return assistant.chat(userName, question);
+                return assistant.chat(userName, question, userName);
             } finally {
-                SecurityContext.clear();
+
             }
         } else {
             return "Usuário precisa estar autenticado!";
